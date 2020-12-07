@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+            Home
+        {% endblock %}
+    </title>
+</head>
+
+<body>
+
+{% block content %}
+    Home page
+    Hello {{ name }}
+    <a href="/cw21/add/">Back to Form</a>
+    {% for student in students %}
+        <p>{{ student.first_name }}</p>
+        <p>{{ student.last_name }}</p>
+        <p>{{ student.age}}</p>
+        <p>{{ student.profession }}</p>
+    {% endfor %}
+
+{% endblock %}
+
+</body>
+</html>
