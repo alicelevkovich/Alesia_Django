@@ -1,33 +1,39 @@
 {% extends 'base.html' %}
 {% block title %}Write lines form{% endblock %}
 {% block content %}
+    {% if is_erased %}
+        <div>
+            File is erased.
+        </div>
+    {% endif %}
     <form action="{% url 'lines' %}" method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Write</button>
     </form>
-    <form>
+    <form action="{% url 'delete_lines' %}" method="post">
+        {% csrf_token %}
         {{ delete_form.as_p }}
-        <button type="button" class="delete_lines" data-action="{% url 'lines' %}">Delete</button>
+        <button type="submit">Delete</button>
     </form>
 
-    {% csrf_token %}
-    <script>
-    $(function() {
-        $('.delete_lines').on('click', function() {
-            csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-            var $btn = $(this);
-            var url = $btn.data('action');
-            $.ajax({
-                url: url,
-                type: 'POST',
-                data: {},
-                success: function(response) {
-                    alert('Object deleted!');
-                },
-                headers: { 'X_METHODOVERRIDE': 'DELETE', 'X-CSRFToken': csrftoken }
-            });
-        });
-    });
-</script>
+
+{#    <script>#}
+{#    $(function() {#}
+{#        $('.delete_lines').on('click', function() {#}
+{#            csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;#}
+{#            var $btn = $(this);#}
+{#            var url = $btn.data('action');#}
+{#            $.ajax({#}
+{#                url: url,#}
+{#                type: 'POST',#}
+{#                data: {},#}
+{#                success: function(response) {#}
+{#                    alert('Object deleted!');#}
+{#                },#}
+{#                headers: { 'X_METHODOVERRIDE': 'DELETE', 'X-CSRFToken': csrftoken }#}
+{#            });#}
+{#        });#}
+{#    });#}
+{#</script>#}
 {% endblock %}

@@ -9,4 +9,5 @@ class WriteLinesForm(forms.Form):
 
 
 class DeleteLinesForm(forms.Form):
-    confirmation = forms.CheckboxInput()
+    # confirmation = forms.CheckboxInput()
+    _method = forms.CharField(widget=forms.HiddenInput(attrs={'value': 'DELETE'}))

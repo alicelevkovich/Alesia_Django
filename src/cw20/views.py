@@ -1,12 +1,14 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
 from cw20.forms import WriteLinesForm, DeleteLinesForm
 
 
 def lines(request):
     context = {
         'form': WriteLinesForm(),
-        'delete_form': DeleteLinesForm()
+        'delete_form': DeleteLinesForm(),
+        'is_erased': request.GET.get('is_erase') == 'True'
     }
     if request.method == 'GET':
 
@@ -29,8 +31,13 @@ def lines(request):
             person_data_file.write(f'{first_name} {last_name} {age}\n')
         return render(request, 'view_page.html', context=context)
 
-    elif request.method == 'DELETE':
-        return HttpResponse(f'yo')
+
+def delete_lines(request):
+    if request.POST.get('_method') == 'DELETE':
+        open('person_data.txt', 'w').close()
+        return redirect('{}?is_erase=True'.format(reverse('lines')))
+
+
 
 
 
